@@ -15,7 +15,6 @@ from frappe.utils import (
 )
 from frappe.utils.jinja import validate_template
 from frappe.modules.utils import export_module_json, get_doc_module
-from six import string_types
 from frappe.core.doctype.sms_settings.sms_settings import send_sms
 from frappe.contacts.doctype.contact.contact import (
     get_default_contact,
@@ -327,7 +326,7 @@ def evaluate_alert(doc, alert, event):
     from jinja2 import TemplateError
 
     try:
-        if isinstance(alert, string_types):
+        if isinstance(alert, str):
             alert = frappe.get_doc("SMS Notification", alert)
 
         context = get_context(doc)

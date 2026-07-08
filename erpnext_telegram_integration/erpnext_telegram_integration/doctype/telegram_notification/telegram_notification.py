@@ -17,7 +17,6 @@ from frappe.utils import (
 )
 from frappe.utils.jinja import validate_template
 from frappe.modules.utils import export_module_json, get_doc_module
-from six import string_types
 from erpnext_telegram_integration.erpnext_telegram_integration.doctype.telegram_settings.telegram_settings import (
 	send_to_telegram,
 )
@@ -375,7 +374,7 @@ def evaluate_alert(doc, alert, event):
 	from jinja2 import TemplateError
 
 	try:
-		if isinstance(alert, string_types):
+		if isinstance(alert, str):
 			alert = frappe.get_doc("Telegram Notification", alert)
 
 		context = get_context(doc)

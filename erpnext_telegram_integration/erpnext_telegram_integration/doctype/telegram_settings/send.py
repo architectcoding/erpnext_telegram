@@ -5,12 +5,12 @@
 from __future__ import unicode_literals 
 import frappe
 import telegram
+import asyncio
 from frappe.model.document import Document
 from frappe.utils import get_url_to_form
 from frappe import _
 import json
-from werkzeug import url_fix
-from six.moves.urllib.parse import quote, urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
 
 # Test API for resending notification from another instance through Hooks to telegram
 
@@ -23,7 +23,7 @@ class ToObject(object):
 def send(*args, **kwargs):
 	
 	r = frappe.request
-	uri = url_fix(r.url.replace("+"," "))
+	uri = r.url.replace("+"," ")
 	http_method = r.method
 	body = r.get_data()
 	headers = r.headers
@@ -53,4 +53,4 @@ def send(*args, **kwargs):
 
 
 	message = space + str(message) + space
-	bot.send_message(chat_id=telegram_chat_id, text=message)
+	asyncio.run(bot.send_message(chat_id=telegram_chat_id, text=message))
