@@ -1,7 +1,7 @@
-# Erpnext Telegram Integration And Notifications
+# ERPNext v16 Telegram Integration And Notifications
 
 Telegram Integration and Extra Notifications For Frappe & Erpnext to sending fast notifications for more productivity.
-
+Forked from https://github.com/yrestom/erpnext_telegram, modified to be compatible with ERPNext v16.
 
 
 # Main features
@@ -26,7 +26,7 @@ Telegram Integration and Extra Notifications For Frappe & Erpnext to sending fas
 
 1. `./env/bin/pip install python-telegram-bot --upgrade` "*This command is necessary to install the python-telegram-bot into bench environment. Otherwise, the pip3/pip command will install it in the python environment"*
 
-2. `bench get-app erpnext_telegram_integration https://github.com/yrestom/erpnext_telegram.git`
+2. `bench get-app erpnext_telegram_integration https://github.com/architectcoding/erpnext_telegram.git`
 
 3. `bench --site [your.site.name] install-app erpnext_telegram_integration`
 
