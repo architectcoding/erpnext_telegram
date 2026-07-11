@@ -4,8 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-import telegram
-import asyncio
+import requests
 from frappe.model.document import Document
 from frappe.utils import get_url_to_form
 from frappe.utils.data import quoted
@@ -18,17 +17,18 @@ class TelegramSettings(Document):
 
 
 def send_telegram_message(telegram_token, telegram_chat_id, message):
-	"""Send a message with the async python-telegram-bot v20+ API from sync code.
+	"""Send a message via Telegram's HTTP Bot API directly.
 
-	`async with bot` initializes and cleanly shuts down the underlying
-	httpx client, so repeated calls inside a worker don't leak connections.
+	Avoids depending on the python-telegram-bot package, whose version this
+	bench's other apps (e.g. insights) pin incompatibly.
 	"""
-	async def _send():
-		bot = telegram.Bot(token=telegram_token)
-		async with bot:
-			await bot.send_message(chat_id=telegram_chat_id, text=message)
-
-	asyncio.run(_send())
+	response = requests.post(
+		f"https://api.telegram.org/bot{telegram_token}/sendMessage",
+		json={"chat_id": telegram_chat_id, "text": message},
+		timeout=30,
+	)
+	response.raise_for_status()
+	return response.json()
 
 
 @frappe.whitelist()
