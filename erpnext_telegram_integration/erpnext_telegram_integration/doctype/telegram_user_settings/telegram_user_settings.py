@@ -24,17 +24,10 @@ class TelegramUserSettings(Document):
 
 
 	def get_chat_id(self):
-		telegram_token = self.get_token_settings()
-		bot = telegram.Bot(token = telegram_token)
-		updates = bot.get_updates(limit=100)
-		for u in updates:
-			message = u.message.text
-			chat_id = u.message.chat_id
-			if self.telegram_token == message:
-				self.telegram_chat_id = chat_id
-				break
-			else:
-				self.telegram_chat_id = None
+		telegram_token_bot = self.get_token_settings()
+		self.telegram_chat_id = asyncio.run(
+			get_chat_id(telegram_token_bot, self.telegram_token)
+		)
 
 
 
